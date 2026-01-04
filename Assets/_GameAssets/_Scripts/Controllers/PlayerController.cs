@@ -57,8 +57,11 @@ public class PlayerController : MonoBehaviour
         public Transform _objectivePointerArrow;
         Transform _objective;
         bool _isPointing = false;
-        public void startObjectivePointer(Transform objective){
-            _objective = objective;
+        public void startObjectivePointer(Transform objective=null)
+        {
+            if(objective != null){
+                _objective = objective;
+            }
             _objectivePointerArrow.gameObject.SetActive(true);
             _isPointing = true;
         }
