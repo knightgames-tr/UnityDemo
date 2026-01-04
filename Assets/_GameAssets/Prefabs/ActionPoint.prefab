@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 8501494673232619866}
   - component: {fileID: 5703061081609599939}
   - component: {fileID: 8998620345750781502}
+  - component: {fileID: 2554881246507310944}
   m_Layer: 0
   m_Name: ActionPoint
   m_TagString: Untagged
@@ -153,3 +154,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5, y: 2.5, z: 1.5}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2554881246507310944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4389915935358572973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acb12d1626fdaf42a311fcfc6b4c27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gizmoShape: 0
+  _gizmosColor: {r: 0, g: 1, b: 0, a: 1}
+  _gizmosSize: 0.75

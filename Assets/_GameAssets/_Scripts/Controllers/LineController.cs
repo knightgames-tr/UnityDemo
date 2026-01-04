@@ -13,16 +13,18 @@ public class LineController : MonoBehaviour
     }
 
     List<NPCController> _queue;
+    public NPCController getFirstAtQueue(){
+        return _queue[0];
+    }
 
-    float _queueOffset = 1f;
-    bool _isLineActive = false;
+    float _queueOffset = 2f;
+    public bool _isLineActive{get;private set;} = false;
     public void processQueue(){
         if(!_isLineActive){
             return;
         }
 
         //Remove first item in queue, do related action
-        _levelManager.processLine(_lineNo,_queue[0]);
         _queue.RemoveAt(0);
 
         if(_queue.Count == 0){

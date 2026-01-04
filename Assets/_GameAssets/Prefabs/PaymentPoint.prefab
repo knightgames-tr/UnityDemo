@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 4566035238101326199}
   - component: {fileID: 2780409985440873532}
   - component: {fileID: 6425579950206332184}
+  - component: {fileID: 5349629746739283657}
   m_Layer: 0
   m_Name: PaymentPoint
   m_TagString: Untagged
@@ -150,6 +151,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 2.5, z: 2.5}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5349629746739283657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2354538418331682494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acb12d1626fdaf42a311fcfc6b4c27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gizmoShape: 0
+  _gizmosColor: {r: 1, g: 0, b: 1, a: 1}
+  _gizmosSize: 0.75
 --- !u!1 &3560692484651799550
 GameObject:
   m_ObjectHideFlags: 0

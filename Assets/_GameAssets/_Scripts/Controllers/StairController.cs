@@ -7,11 +7,9 @@ public class StairController : MonoBehaviour
 {
     public int _lineNo;
     PlayerController _playerController;
-    LevelManager _levelManager;
     void Start()
     {
         _playerController = PlayerController.Instance;
-        _levelManager = LevelManager.Instance;
 
         _stairQueue = new List<Transform>();
         initStepPositions();
@@ -42,13 +40,13 @@ public class StairController : MonoBehaviour
 
     float _stepSpeed = 0.7f;
     public void startStairMovement(){
-        for(int i=0;i<_steps.Count;i++){
+        for(int i=0;i<_steps.Count-1;i++){
             Vector3 movePosition = Vector3.Lerp(_startStep.position,_endStep.position,(i+1f)/_stepCount);
             _steps[i].DOMove(movePosition,_stepSpeed).SetEase(Ease.Linear).SetLoops(-1);
         }
             
         _steps[_steps.Count-1].DOMove(_endStep.position,_stepSpeed).SetEase(Ease.Linear).SetLoops(-1)
-        .OnComplete(()=>{stepReached();});
+        .OnStepComplete(()=>{stepReached();});
     }
 
     List<Transform> _stairQueue;
@@ -58,13 +56,11 @@ public class StairController : MonoBehaviour
         if(item.tag == "Player"){
             _playerController.togglePlayerController(false);
             _playerController.stopObjectivePointer();
-        }else if(item.tag == "NPC"){
-            item.GetComponent<NPCController>().toggleNavmeshAgent(false);
         }
     }
     void stepReached(){
         //Move each item to upper step
-        for(int i=0;i<_steps.Count;i++){
+        for(int i=_steps.Count-1;i>-1;i--){
             if(_steps[i].childCount > 0){
                 if(i == _stepCount-1){
                     //Stair completed for item,move to next pos
@@ -76,10 +72,12 @@ public class StairController : MonoBehaviour
                         _playerController.togglePlayerController(true);
                         _playerController.startObjectivePointer();
                     }else if(item.tag == "NPC"){
-                        item.GetComponent<NPCController>().reachedQueuePosition(0);
+                        item.GetComponent<NPCController>().reachedStairTop();
                     }
                 }else{
                     _steps[i].GetChild(0).parent = _steps[i+1];
+                    _steps[i+1].GetChild(0).localPosition = Vector3.zero;
+
                 }
             }
         }
