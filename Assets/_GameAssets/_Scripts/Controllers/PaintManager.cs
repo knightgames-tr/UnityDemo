@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,7 +37,6 @@ public class PaintManager : MonoBehaviour
         _brushSizeSlider.onValueChanged.AddListener((v) => {setBrushSize(v);});
     }
 
-    public GameObject _paintUI;
     public Renderer _paintArea;
     int _paintTexturePixelCount;
     int _paintedPixelCount;
@@ -69,6 +69,8 @@ public class PaintManager : MonoBehaviour
         _materialPropertyBlock = new MaterialPropertyBlock();
         _materialPropertyBlock.SetTexture("_BaseMap", _paintTexture);
         _paintArea.SetPropertyBlock(_materialPropertyBlock);
+
+        updatePaintedPercentageText();
     }
 
     public LayerMask _paintLayer;
@@ -115,6 +117,8 @@ public class PaintManager : MonoBehaviour
         applyPixelColorsToTexture();
     }
 
+    [Header ("UI Elements")]
+    public GameObject _paintUI;
     public Slider _brushSizeSlider;
     int _brushSize = 10;
     int _brushSizeMultiplier = 10;
@@ -122,19 +126,26 @@ public class PaintManager : MonoBehaviour
         _brushSize = (int)value*_brushSizeMultiplier;
     }
 
-    Color _brushColor = Color.red;
+    public List<Transform> _colorButtons;
+    Color _brushColor = Color.yellow;
+    int _currentButtonIndex;
     public void setBrushColor(int buttonNo){
+        _colorButtons[_currentButtonIndex].DOScale(Vector3.one,1f);
+        _colorButtons[buttonNo].DOScale(Vector3.one*1.15f,0.4f);
+        _currentButtonIndex = buttonNo;
+
         if(buttonNo == 0){
-            _brushColor = Color.red;
+            _brushColor = Color.yellow;
         }else if(buttonNo == 1){
-            _brushColor = Color.blue;
+            _brushColor = Color.red;
         }else if(buttonNo == 2){
-            _brushColor = Color.green;
+            _brushColor = Color.blue;
         }
     }
 
     public TextMeshProUGUI _paintedPercentageText;
     public void updatePaintedPercentageText(){
+        _paintedPercentageText.text = ( (int) (((float)_paintedPixelCount/_paintTexturePixelCount)*100) )+"%";
 
     }
 
