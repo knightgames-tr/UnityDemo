@@ -10,16 +10,20 @@ public class PlayerController : MonoBehaviour
     }
     void Start(){
         _characterController = GetComponent<CharacterController>();
+
+        //Play Idle Anim 
+        _currentAnimState = AnimStates.Idle;
+        _playerAnimator.Play(AnimStates.Idle.ToString());   
     }
 
     void Update(){
-        if(_playerControllerActive){
-            movePlayer();
-        }
+        movePlayer();
 
         if(_isPointing){
             updateObjectiveArrow();
         }
+        
+        animationController();
     }
 
     public Joystick _joystick;
@@ -40,23 +44,71 @@ public class PlayerController : MonoBehaviour
 
     
     public Transform _playerModel;
-    public Animator _playerAnimator;
 
     #region Movement
-        float _moveSpeed = 5f;
-        float _rotateSpeed = 3f;
+        float _moveSpeed = 8f;
+        float _rotateSpeed = 10f;
+        Vector3 _movementVector;
         void movePlayer(){
-            //Move player
-            Vector3 move = transform.right * _joystick.Horizontal + transform.forward * _joystick.Vertical;
-            if(move.magnitude < 0.01){
+            if(!_playerControllerActive){
+                _movementVector = Vector3.zero;
                 return;
             }
-            _characterController.Move(move * _moveSpeed * Time.deltaTime);
+
+            //Move player
+            _movementVector = transform.right * _joystick.Horizontal + transform.forward * _joystick.Vertical;
+            if(_movementVector.magnitude < 0.01){
+                return;
+            }
+            _characterController.Move(_movementVector * _moveSpeed * Time.deltaTime);
 
             //Rotate player to move vector, using slerp
-            Quaternion targetRot = Quaternion.LookRotation(move);
+            Quaternion targetRot = Quaternion.LookRotation(_movementVector);
             _playerModel.rotation = Quaternion.Slerp(_playerModel.rotation,targetRot,_rotateSpeed * Time.deltaTime);
         }
+    #endregion
+
+    #region Animation
+        
+        enum AnimStates{
+            Idle,
+            Run
+        }
+        AnimStates _currentAnimState;
+        public Animator _playerAnimator;
+        bool _isBaggageOn;
+        float _toggleBag;
+        float _toggleBagSpeed=1f;
+        void animationController(){
+            //Set run idle states
+            if(_currentAnimState != AnimStates.Run && _movementVector.magnitude >= 0.01f){
+                _currentAnimState = AnimStates.Run;
+                _playerAnimator.Play(AnimStates.Run.ToString());
+            }else if(_currentAnimState != AnimStates.Idle && _movementVector.magnitude < 0.01f){
+                _currentAnimState = AnimStates.Idle;
+                _playerAnimator.Play(AnimStates.Idle.ToString());
+            }
+
+            //Toggle baggage carry
+            if(_isBaggageOn && _toggleBag < 1){
+                _toggleBag += Time.deltaTime*_toggleBagSpeed;
+                if(_toggleBag >= 1){
+                    _toggleBag = 1;
+                }
+                _playerAnimator.SetLayerWeight(1,_toggleBag);
+            }else if(!_isBaggageOn && _toggleBag > 0){
+                _toggleBag -= Time.deltaTime*_toggleBagSpeed;
+                if(_toggleBag <= 0){
+                    _toggleBag = 0;
+                }
+                _playerAnimator.SetLayerWeight(1,_toggleBag);
+            }
+        }
+        
+        public void toggleBaggageCarry(bool value){
+            _isBaggageOn = value;
+        }
+        
     #endregion
 
     #region Objective Pointer

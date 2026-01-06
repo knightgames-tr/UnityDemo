@@ -116,7 +116,9 @@ public class LevelManager : MonoBehaviour
                     }else{
                         _lineReadyNPC[0]._baggage.parent = _baggageParent.transform;
                         _lineReadyNPC[0]._baggage.DOLocalMove(Vector3.zero,1f);
+                        _lineReadyNPC[0].toggleBaggageCarry(false);
                         yield return new WaitForSeconds(1f);
+                        _playerController.toggleBaggageCarry(true);
                         _lines[1].addNPCToLine(_lineReadyNPC[0]);
                         _lineReadyStates[0] = false;
                         _lines[0].processQueue();
@@ -136,6 +138,7 @@ public class LevelManager : MonoBehaviour
 
                     if(_baggageParent.childCount < 1){
                         //Line completed
+                        _playerController.toggleBaggageCarry(false);
                         _standPoints[2].togglePoint(false);
                         _standPoints[3].togglePoint(true);
                         _playerController.startObjectivePointer(_standPoints[3].transform);
@@ -180,6 +183,11 @@ public class LevelManager : MonoBehaviour
             }
 
             public Transform _plane;
+            public GameObject _moneyPrefab;
+            public List<Transform> _moneyPutPlaces;
+            int _moneyPutCount;
+            float _currentMoneyPutOffset;
+            float _moneyPutOffset = 0.12f;
             float _standPoint4WaitTime = 0.1f;
             IEnumerator processStandPoint4(){
                 while(true){
@@ -195,6 +203,14 @@ public class LevelManager : MonoBehaviour
                     if(_lineReadyStates[2] == false){
                         yield return new WaitForSeconds(_standPoint4WaitTime);
                     }else{
+                        //Create money objects and move them to pos
+                        Transform moneyObject = Instantiate(_moneyPrefab,_lines[2].transform.position,Quaternion.identity).transform;
+                        moneyObject.DOMove(_moneyPutPlaces[_moneyPutCount].position+new Vector3(0,_currentMoneyPutOffset,0),1f);
+                        if(++_moneyPutCount == _moneyPutPlaces.Count){
+                            _moneyPutCount = 0;
+                            _currentMoneyPutOffset += _moneyPutOffset;
+                        }
+
                         _lines[3].addNPCToLine(_lineReadyNPC[2]);
                         _lineReadyStates[2] = false;
                         _lines[2].processQueue();

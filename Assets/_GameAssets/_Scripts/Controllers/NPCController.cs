@@ -11,12 +11,19 @@ public class NPCController : MonoBehaviour
         _levelManager = LevelManager.Instance;
 
         _npcAgent = GetComponent<NavMeshAgent>();
+
+        //Play Idle Anim 
+        _currentAnimState = AnimStates.Idle;
+        _npcAnimator.Play(AnimStates.Idle.ToString());        
+        toggleBaggageCarry(true);
     }
 
     void Update(){
         if(_npcAgentState){
             checkReachedDestination();
         }
+        
+        animationController();
     }
 
     #region Navmesh Agent
@@ -73,6 +80,49 @@ public class NPCController : MonoBehaviour
             NavMeshHit navHit;
             NavMesh.SamplePosition(point, out navHit, 1 , NavMesh.AllAreas);
             return navHit.position;
+        }
+
+    #endregion
+
+    #region Animation
+        
+        enum AnimStates{
+            Idle,
+            Run
+        }
+        AnimStates _currentAnimState;
+        public Animator _npcAnimator;
+        bool _isBaggageOn;
+        float _toggleBag;
+        float _toggleBagSpeed=1f;
+        void animationController(){
+            //Set run idle states
+            if(_currentAnimState != AnimStates.Run && _npcAgent.velocity.magnitude >= 0.01f){
+                _currentAnimState = AnimStates.Run;
+                _npcAnimator.Play(AnimStates.Run.ToString());
+            }else if(_currentAnimState != AnimStates.Idle && _npcAgent.velocity.magnitude < 0.01f){
+                _currentAnimState = AnimStates.Idle;
+                _npcAnimator.Play(AnimStates.Idle.ToString());
+            }
+
+            //Toggle baggage carry
+            if(_isBaggageOn && _toggleBag < 1){
+                _toggleBag += Time.deltaTime*_toggleBagSpeed;
+                if(_toggleBag >= 1){
+                    _toggleBag = 1;
+                }
+                _npcAnimator.SetLayerWeight(1,_toggleBag);
+            }else if(!_isBaggageOn && _toggleBag > 0){
+                _toggleBag -= Time.deltaTime*_toggleBagSpeed;
+                if(_toggleBag <= 0){
+                    _toggleBag = 0;
+                }
+                _npcAnimator.SetLayerWeight(1,_toggleBag);
+            }
+        }
+        
+        public void toggleBaggageCarry(bool value){
+            _isBaggageOn = value;
         }
 
     #endregion
