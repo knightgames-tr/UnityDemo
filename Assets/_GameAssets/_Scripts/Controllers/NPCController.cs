@@ -16,7 +16,6 @@ public class NPCController : MonoBehaviour
         _currentAnimState = AnimStates.Idle;
         _npcAnimator.Play(AnimStates.Idle.ToString());        
         toggleBaggageCarry(true);
-        _toggleBag = 1;
     }
 
     void Update(){

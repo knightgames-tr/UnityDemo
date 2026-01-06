@@ -25,6 +25,8 @@ public class LevelManager : MonoBehaviour
 
         //Activate first payment point
         _standPoints[0].togglePoint(true);
+
+        _baggages = new List<Transform>();
         
     }
 
@@ -105,7 +107,9 @@ public class LevelManager : MonoBehaviour
             }
 
             [Separator]
-            public Transform _baggageParent;
+            public Transform _baggagePlayerParent;
+            public List<Transform> _baggages;
+            float _baggageOffset = 0.4f;
             float _standPoint1WaitTime = 0.1f;
             IEnumerator processStandPoint1(){
                 while(true){
@@ -120,12 +124,22 @@ public class LevelManager : MonoBehaviour
                     if(_lineReadyStates[0] == false){
                         yield return new WaitForSeconds(_standPoint1WaitTime);
                     }else{
-                        _lineReadyNPC[0]._baggage.parent = null;
-                        _lineReadyNPC[0]._baggage.DOMoveInTargetLocalSpace(_baggageParent.transform,Vector3.zero,1f).OnComplete(()=>{
-                            _lineReadyNPC[0]._baggage.parent = _baggageParent.transform;
+
+                        //Put baggage under player transform
+                        Transform baggage = _lineReadyNPC[0]._baggage;
+                        _baggages.Add(baggage);
+                        baggage.parent = null;
+                        baggage.DOJump(_baggagePlayerParent.transform.position+new Vector3(0,_baggages.IndexOf(baggage)*_baggageOffset,0),3,1,0.4f).OnComplete(()=>{
+                            baggage.DOMoveInTargetLocalSpace(_baggagePlayerParent.transform,new Vector3(0,_baggages.IndexOf(baggage)*_baggageOffset,0),0.1f).OnComplete(()=>{
+                                baggage.parent = _baggagePlayerParent.transform;
+                                baggage.DOLocalRotate(new Vector3(0,0,90),0.5f);
+                            });
                         });
+
                         _lineReadyNPC[0].toggleBaggageCarry(false);
-                        yield return new WaitForSeconds(1f);
+
+                        yield return new WaitForSeconds(0.4f);
+
                         _playerController.toggleBaggageCarry(true);
                         _lines[1].addNPCToLine(_lineReadyNPC[0]);
                         _lineReadyStates[0] = false;
@@ -135,34 +149,36 @@ public class LevelManager : MonoBehaviour
                 }
             }
 
-            public Transform _baggagePut;
+            public Transform _baggagePutPosition;
             float _standPoint2WaitTime = 0.3f;
-            float _childCount;
+            int _currentBaggageIndex;
             IEnumerator processStandPoint2(){
                 while(true){
                     if(!_standPoints[2].getIsStanding()){
                         yield break;
                     }
 
-                    if(_baggageParent.childCount < 1){
+                    if(_baggagePlayerParent.childCount < 1){
                         //Line completed
+                        _currentBaggageIndex = _baggages.Count-1;
                         _playerController.toggleBaggageCarry(false);
                         _standPoints[2].togglePoint(false);
                         _standPoints[3].togglePoint(true);
                         _playerController.startObjectivePointer(_standPoints[3].transform);
-                        _childCount = 0;
                         yield break;
                     }
 
-                    Transform child = _baggageParent.GetChild(0);
-                    child.parent = _baggagePut.transform;
-                    child.DOLocalMove(new Vector3(0,_childCount,0),_standPoint2WaitTime);
-                    _childCount++;
+                    _baggages[_currentBaggageIndex].parent = null;
+                    _baggages[_currentBaggageIndex].DOJump(_baggagePutPosition.position+new Vector3(0,_baggageOffset*(_baggages.Count-1-_currentBaggageIndex),0),3,1,_standPoint2WaitTime);
+                    _baggages[_currentBaggageIndex].DOLocalRotate(_baggagePutPosition.eulerAngles,_standPoint2WaitTime);
+                    _currentBaggageIndex--;
                     yield return new WaitForSeconds(_standPoint2WaitTime);
                 }
             }
 
-            float _standPoint3WaitTime = 0.3f;
+            float _standPoint3WaitTime = 1.2f;
+            public Transform _baggageJumpPosition;
+            public Transform _jumpPadObject;
             public Transform _truck;
             IEnumerator processStandPoint3(){
                 while(true){
@@ -170,11 +186,12 @@ public class LevelManager : MonoBehaviour
                         yield break;
                     }
 
-                    if(_baggagePut.childCount < 1){
+                    if(_currentBaggageIndex < 0){
                         //Line completed
                         _standPoints[3].togglePoint(false);
                         _standPoints[4].togglePoint(true);
                         _playerController.startObjectivePointer(_standPoints[3].transform);
+                        moveTruckAway();
 
                         foreach(StairController stair in _part2Stairs){
                             stair.toggleForPlayer(true);
@@ -182,12 +199,29 @@ public class LevelManager : MonoBehaviour
                         yield break;
                     }
 
-                    Transform child = _baggagePut.GetChild(0);
-                    child.parent = _truck.transform;
-                    child.DOLocalMove(new Vector3(0,_childCount,0),_standPoint3WaitTime);
-                    _childCount++;
-                    yield return new WaitForSeconds(_standPoint2WaitTime);
+                    for(int i=_currentBaggageIndex-1;i>-1;i--){
+                        _baggages[i].DOMove(_baggages[i+1].position,_standPoint3WaitTime/3);
+                    }
+
+                    Sequence baggageSequence = DOTween.Sequence();
+                    baggageSequence.Append(_baggages[_currentBaggageIndex].DOMove(_baggageJumpPosition.position,_standPoint3WaitTime/3))
+                    .Append(_baggages[_currentBaggageIndex].DOJump(_jumpPadObject.position,1,1,_standPoint3WaitTime/3))
+                    .Append(_baggages[_currentBaggageIndex].DOJump(_truck.position+new Vector3(0,_baggageOffset*(_baggages.Count-1-_currentBaggageIndex),0),3,1,(_standPoint3WaitTime/3)*2))
+                    .OnComplete(()=>{
+                            _baggages[_currentBaggageIndex].parent = _truck;
+                            _currentBaggageIndex--;
+                    });
+
+
+                    _jumpPadObject.DOMove(_jumpPadObject.position+new Vector3(0,2,0),_standPoint3WaitTime/3).SetDelay((_standPoint3WaitTime/3)*2).OnComplete(()=>{
+                        _jumpPadObject.DOMove(_jumpPadObject.position-new Vector3(0,2,0),_standPoint3WaitTime/3);
+                    });
+                    yield return new WaitForSeconds(_standPoint3WaitTime*(5/3f));
                 }
+            }
+
+            void moveTruckAway(){
+
             }
 
             public Transform _plane;
@@ -269,6 +303,7 @@ public class LevelManager : MonoBehaviour
 
         public void lineCompleted(int lineNo){
             if(lineNo == 0){
+                _currentBaggageIndex = _baggages.Count-1;
                 _standPoints[1].togglePoint(false);
                 _standPoints[2].togglePoint(true);
                 _playerController.startObjectivePointer(_standPoints[2].transform);
