@@ -207,7 +207,9 @@ public class LevelManager : MonoBehaviour
                     }else{
                         //Create money objects and move them to pos
                         Transform moneyObject = Instantiate(_moneyPrefab,_lines[2].transform.position,Quaternion.identity).transform;
-                        moneyObject.DOMove(_moneyPutPlaces[_moneyPutCount].position+new Vector3(0,_currentMoneyPutOffset,0),1f);
+                        moneyObject.GetComponent<MoneyStackTrigger>().Init();
+                        moneyObject.DOMove(_moneyPutPlaces[_moneyPutCount].position+new Vector3(0,_currentMoneyPutOffset,0),1f)
+                        .OnComplete(()=>{moneyObject.GetComponent<MoneyStackTrigger>().activateTrigger();});
                         if(++_moneyPutCount == _moneyPutPlaces.Count){
                             _moneyPutCount = 0;
                             _currentMoneyPutOffset += _moneyPutOffset;
