@@ -244,6 +244,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4184937281818773262}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &16808182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 16808183}
+  m_Layer: 0
+  m_Name: AirplaneDonePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &16808183
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16808182}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.9099998, y: 1.55, z: -41.32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6237065993488943813}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &20447467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1394,7 +1425,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &342614289
 GameObject:
@@ -1824,7 +1855,7 @@ Transform:
   m_GameObject: {fileID: 536405979}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.49, y: 0, z: 0.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2675,7 +2706,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &831019914
 GameObject:
@@ -3389,6 +3420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1043955094}
+  - component: {fileID: 1043955095}
   m_Layer: 0
   m_Name: MoneyPutPosition2
   m_TagString: Untagged
@@ -3405,12 +3437,27 @@ Transform:
   m_GameObject: {fileID: 1043955093}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.86, y: 1.4799999, z: -5.6666665}
+  m_LocalPosition: {x: -7.86, y: 1.4799998, z: -4.7766666}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 536405980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1043955095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043955093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acb12d1626fdaf42a311fcfc6b4c27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gizmoShape: 0
+  _gizmosColor: {r: 1, g: 0, b: 1, a: 1}
+  _gizmosSize: 0.15
 --- !u!1 &1135578216
 GameObject:
   m_ObjectHideFlags: 0
@@ -4303,6 +4350,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1497631063}
+  - component: {fileID: 1497631064}
   m_Layer: 0
   m_Name: MoneyPutPosition3
   m_TagString: Untagged
@@ -4319,12 +4367,27 @@ Transform:
   m_GameObject: {fileID: 1497631062}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.86, y: 1.4799999, z: -6.3333335}
+  m_LocalPosition: {x: -7.86, y: 1.4799998, z: -5.4433336}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 536405980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1497631064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497631062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acb12d1626fdaf42a311fcfc6b4c27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gizmoShape: 0
+  _gizmosColor: {r: 1, g: 0, b: 1, a: 1}
+  _gizmosSize: 0.15
 --- !u!1 &1522730076
 GameObject:
   m_ObjectHideFlags: 0
@@ -4613,6 +4676,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1562831865}
+  - component: {fileID: 1562831866}
   m_Layer: 0
   m_Name: MoneyPutPosition1
   m_TagString: Untagged
@@ -4629,12 +4693,27 @@ Transform:
   m_GameObject: {fileID: 1562831864}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.86, y: 1.48, z: -5}
+  m_LocalPosition: {x: -7.86, y: 1.48, z: -4.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 536405980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1562831866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562831864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acb12d1626fdaf42a311fcfc6b4c27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gizmoShape: 0
+  _gizmosColor: {r: 1, g: 0, b: 1, a: 1}
+  _gizmosSize: 0.15
 --- !u!114 &1603274831 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3021194701961749696, guid: e5331a083d7c79c4ab73d6566f6beb9f,
@@ -4861,7 +4940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50eb31241c7d0b942964802306418391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _NPCs:
+  _npcs:
   - {fileID: 5587234775132743740}
   - {fileID: 1698521150}
   - {fileID: 1471941270}
@@ -4903,6 +4982,9 @@ MonoBehaviour:
   - {fileID: 602362764}
   - {fileID: 592978699}
   - {fileID: 612622721}
+  _passengerCounterText: {fileID: 1418954848}
+  _airplaneTransform: {fileID: 6136294597235486459}
+  _airplaneDonePosition: {fileID: 16808183}
 --- !u!1 &1799505103
 GameObject:
   m_ObjectHideFlags: 0
@@ -6041,6 +6123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2056096400}
+  - component: {fileID: 2056096401}
   m_Layer: 0
   m_Name: MoneyPutPosition4
   m_TagString: Untagged
@@ -6057,12 +6140,27 @@ Transform:
   m_GameObject: {fileID: 2056096399}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.86, y: 1.4799999, z: -7}
+  m_LocalPosition: {x: -7.86, y: 1.4799998, z: -6.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 536405980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2056096401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056096399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acb12d1626fdaf42a311fcfc6b4c27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gizmoShape: 0
+  _gizmosColor: {r: 1, g: 0, b: 1, a: 1}
+  _gizmosSize: 0.15
 --- !u!1 &2097795019
 GameObject:
   m_ObjectHideFlags: 0
@@ -8161,6 +8259,7 @@ Transform:
   - {fileID: 1561125090}
   - {fileID: 1181609510}
   - {fileID: 1436227281}
+  - {fileID: 16808183}
   - {fileID: 6136294597235486459}
   - {fileID: 873301852077016272}
   - {fileID: 7680375600598936151}

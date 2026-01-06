@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
 using MyBox;
+using TMPro;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -33,7 +34,7 @@ public class LevelManager : MonoBehaviour
         
     }
 
-    public List<NPCController> _NPCs;
+    public List<NPCController> _npcs;
 
     #region Stand Points
 
@@ -50,8 +51,6 @@ public class LevelManager : MonoBehaviour
                 StartCoroutine(processStandPoint3());
             }else if(pointNo == 4){
                 StartCoroutine(processStandPoint4());
-            }else if(pointNo == 5){
-                StartCoroutine(processStandPoint5());
             }
         }    
         
@@ -62,6 +61,8 @@ public class LevelManager : MonoBehaviour
         public void donePaymentPoint(int pointNo){
             if(pointNo == 0){
                 activatePart2Environment();
+            }else if(pointNo == 5){
+                StartCoroutine(processStandPoint5());
             }
         }
 
@@ -97,7 +98,7 @@ public class LevelManager : MonoBehaviour
                             stair.startStairMovement();
                         }
                         
-                        foreach(NPCController npc in _NPCs){
+                        foreach(NPCController npc in _npcs){
                             _lines[0].addNPCToLine(npc);
                         }
                     });
@@ -199,7 +200,6 @@ public class LevelManager : MonoBehaviour
             IEnumerator processStandPoint4(){
                 while(true){
                     if(!_lines[2]._isLineActive){
-                        _standPoints[5].togglePoint(true);
                         yield break;
                     }
 
@@ -262,8 +262,7 @@ public class LevelManager : MonoBehaviour
                 if(lineNo == 1){
                     putNPCToStair(npc.transform);
                 }else if(lineNo == 3){
-                    Destroy(npc.gameObject);
-                    _lines[3].processQueue();
+                    reachedAirplane(npc);
                 }
             }
         }
@@ -273,6 +272,9 @@ public class LevelManager : MonoBehaviour
                 _standPoints[1].togglePoint(false);
                 _standPoints[2].togglePoint(true);
                 _playerController.startObjectivePointer(_standPoints[2].transform);
+            }else if(lineNo == 2){
+                _standPoints[4].togglePoint(false);
+                _playerController.startObjectivePointer(_standPoints[5].transform);
             }
 
         }
@@ -286,6 +288,20 @@ public class LevelManager : MonoBehaviour
 
             public void reachedStairTop(NPCController npc){
                 _lines[2].addNPCToLine(npc);
+            }
+
+            int _passengerCounter;
+            public TextMeshProUGUI _passengerCounterText;
+            public Transform _airplaneTransform;
+            public Transform _airplaneDonePosition;
+            void reachedAirplane(NPCController npc){
+                Destroy(npc.gameObject);
+                _lines[3].processQueue();
+
+                _passengerCounterText.text = ++_passengerCounter+"/"+_npcs.Count;
+                if(_passengerCounter == _npcs.Count){
+                    _airplaneTransform.DOMove(_airplaneDonePosition.position,1f);
+                }
             }
 
         #endregion

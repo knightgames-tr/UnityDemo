@@ -95,7 +95,7 @@ public class NPCController : MonoBehaviour
         public Animator _npcAnimator;
         bool _isBaggageOn;
         float _toggleBag;
-        float _toggleBagSpeed=0.5f;
+        float _toggleBagSpeed=3f;
         void animationController(){
             //Set run idle states
             if(_currentAnimState != AnimStates.Run && _npcAgent.velocity.magnitude >= 0.01f){

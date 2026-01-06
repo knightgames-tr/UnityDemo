@@ -32,11 +32,11 @@ public class GameManager : MonoBehaviour
             if(_currentMoney+changeAmount < 0){
                 return false;
             }
-            
-            _scoreUpdatedEvent.Invoke();
 
             _currentMoney += changeAmount;
             _moneyText.text = _currentMoney+"";
+
+            _scoreUpdatedEvent.Invoke();
 
             return true;
         }
