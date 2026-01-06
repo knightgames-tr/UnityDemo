@@ -31,7 +31,6 @@ public class PaintManager : MonoBehaviour
     bool _isPaintActive;
     [ContextMenu ("activatePaint")]
     public void activatePaintManager(){
-        _playerController.togglePlayerController(false);
         _isPaintActive = true;
         _paintUI.SetActive(true);
         _brushSizeSlider.onValueChanged.AddListener((v) => {setBrushSize(v);});

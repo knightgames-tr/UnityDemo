@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class MoneyStackTrigger : MonoBehaviour
 {
+    GameManager _gameManager;
     PlayerController _playerController;
     public void Init(){
+        _gameManager = GameManager.Instance;
         _playerController = PlayerController.Instance;
     }
 
@@ -26,9 +28,11 @@ public class MoneyStackTrigger : MonoBehaviour
         if(other.transform.tag == "Player"){
             _triggered = true;
             for(int i=0; i<_money.Count-1;i++){
+                _gameManager.updateMoney(10);
                 _money[i].DOJump(_playerController.transform.position, 3, 1,_moveTime);
                 _money[i].DOScale(Vector3.zero,_moveTime*1.25f);
             }
+            _gameManager.updateMoney(10);
             _money[_money.Count-1].DOJump(_playerController.transform.position, 3, 1,_moveTime);
             _money[_money.Count-1].DOScale(Vector3.zero,_moveTime*1.25f).OnComplete(()=>Destroy(this.gameObject));
         }

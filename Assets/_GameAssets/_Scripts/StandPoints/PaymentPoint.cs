@@ -10,6 +10,9 @@ public class PaymentPoint : StandPoint
 {
     public override void Start(){
         base.Start();
+
+        _gameManager._scoreUpdatedEvent.AddListener(checkIfCanBeActivated);
+
         _currentPrice = _pointPrice;
         _priceText.text = _pointPrice+"";
     }
@@ -75,7 +78,16 @@ public class PaymentPoint : StandPoint
             _levelManager.offStandPoint(_pointNo);
             _levelManager.donePaymentPoint(_pointNo);
 
-            transform.DOScale(0,0.5f);
+            transform.DOScale(0,0.5f)
+            .OnComplete(()=>{Destroy(gameObject);});
+        }
+    }
+
+    void checkIfCanBeActivated(){
+        if(_gameManager.getCurrentMoney() >= _currentPrice){
+            togglePoint(true);
+
+            _gameManager._scoreUpdatedEvent.RemoveListener(checkIfCanBeActivated);
         }
     }
 }

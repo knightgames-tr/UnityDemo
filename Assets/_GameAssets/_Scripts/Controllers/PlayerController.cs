@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         public Animator _playerAnimator;
         bool _isBaggageOn;
         float _toggleBag;
-        float _toggleBagSpeed=1f;
+        float _toggleBagSpeed=0.5f;
         void animationController(){
             //Set run idle states
             if(_currentAnimState != AnimStates.Run && _movementVector.magnitude >= 0.01f){
@@ -126,6 +126,10 @@ public class PlayerController : MonoBehaviour
         }
 
         void updateObjectiveArrow(){
+            if(_objective == null){
+                stopObjectivePointer();
+                return;
+            }
             _objectivePointerArrow.LookAt(_objective.position);
         }
 

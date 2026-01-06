@@ -7,14 +7,17 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+
     public static LevelManager Instance;
     void Awake(){
         Instance = this;
     }
 
+    PaintManager _paintManager;
     PlayerController _playerController;
     void Start()
     {
+        _paintManager = PaintManager.Instance;
         _playerController = PlayerController.Instance;
 
         initLineReadyStates();
@@ -47,6 +50,8 @@ public class LevelManager : MonoBehaviour
                 StartCoroutine(processStandPoint3());
             }else if(pointNo == 4){
                 StartCoroutine(processStandPoint4());
+            }else if(pointNo == 5){
+                StartCoroutine(processStandPoint5());
             }
         }    
         
@@ -207,6 +212,7 @@ public class LevelManager : MonoBehaviour
                     }else{
                         //Create money objects and move them to pos
                         Transform moneyObject = Instantiate(_moneyPrefab,_lines[2].transform.position,Quaternion.identity).transform;
+                        
                         moneyObject.GetComponent<MoneyStackTrigger>().Init();
                         moneyObject.DOMove(_moneyPutPlaces[_moneyPutCount].position+new Vector3(0,_currentMoneyPutOffset,0),1f)
                         .OnComplete(()=>{moneyObject.GetComponent<MoneyStackTrigger>().activateTrigger();});
@@ -222,6 +228,15 @@ public class LevelManager : MonoBehaviour
                     }
 
                 }
+            }
+
+            public CinemachineVirtualCamera _paintCamera;
+            IEnumerator processStandPoint5(){
+                _playerController.togglePlayerController(false);
+                _playerController.stopObjectivePointer();
+                _paintCamera.Priority += 2;
+                yield return new WaitForSeconds(Camera.main.GetComponent<CinemachineBrain>().m_DefaultBlend.m_Time);
+                _paintManager.activatePaintManager();
             }
 
         #endregion
