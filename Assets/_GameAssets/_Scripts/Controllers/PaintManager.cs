@@ -13,14 +13,15 @@ public class PaintManager : MonoBehaviour
         Instance = this;
     }
 
+    GameManager _gameManager;
     PlayerController _playerController;
     void Start(){
+        _gameManager = GameManager.Instance;
         _playerController = PlayerController.Instance;
 
         setPaintTexture();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(_isPaintActive){
@@ -31,9 +32,15 @@ public class PaintManager : MonoBehaviour
     bool _isPaintActive;
     [ContextMenu ("activatePaint")]
     public void activatePaintManager(){
+        _gameManager.deactivateMoneyUI();
+        rotatePlayerToBoard();
         _isPaintActive = true;
         _paintUI.SetActive(true);
         _brushSizeSlider.onValueChanged.AddListener((v) => {setBrushSize(v);});
+    }
+
+    void rotatePlayerToBoard(){
+        _playerController._playerModel.transform.DOLookAt(_paintArea.transform.position, 0.4f, AxisConstraint.Y);
     }
 
     public Renderer _paintArea;
@@ -138,7 +145,7 @@ public class PaintManager : MonoBehaviour
         }else if(buttonNo == 1){
             _brushColor = Color.red;
         }else if(buttonNo == 2){
-            _brushColor = Color.blue;
+            _brushColor = Color.cyan;
         }
     }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class NPCController : MonoBehaviour
 {
@@ -70,9 +71,9 @@ public class NPCController : MonoBehaviour
         }
 
         public void rotateToReachedPoint(){
-            if(_reachedPoint != null){
-                transform.rotation = Quaternion.LookRotation(_reachedPoint);
-            }
+
+            //if(_reachedPoint != null){
+            //}
         }
 
         

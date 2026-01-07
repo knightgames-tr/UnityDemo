@@ -3385,6 +3385,7 @@ MonoBehaviour:
   _scoreUpdatedEvent:
     m_PersistentCalls:
       m_Calls: []
+  _moneyUI: {fileID: 1142686706}
   _moneyText: {fileID: 223763117}
 --- !u!1 &1013985780
 GameObject:

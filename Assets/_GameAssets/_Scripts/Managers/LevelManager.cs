@@ -30,12 +30,6 @@ public class LevelManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public List<NPCController> _npcs;
 
     #region Stand Points
@@ -217,7 +211,7 @@ public class LevelManager : MonoBehaviour
                         //Line completed
                         _standPoints[3].togglePoint(false);
                         _standPoints[4].togglePoint(true);
-                        _playerController.startObjectivePointer(_standPoints[3].transform);
+                        _playerController.startObjectivePointer(_part2Stairs[0].highLightArrow());
                         moveTruckAway();
 
                         foreach(StairController stair in _part2Stairs){
@@ -253,7 +247,7 @@ public class LevelManager : MonoBehaviour
             }
 
             public Transform _truck;
-            float _truckMoveAmount = -20f;
+            float _truckMoveAmount = -30f;
             void moveTruckAway(){
                 _truck.DOLocalMoveZ(_truck.position.z+_truckMoveAmount,2f).OnComplete(()=>{
                     _truck.DOLocalMoveZ(_truck.position.z-_truckMoveAmount,2f);
@@ -370,6 +364,11 @@ public class LevelManager : MonoBehaviour
 
             public void reachedStairTop(NPCController npc){
                 _lines[2].addNPCToLine(npc);
+            }
+
+            public void playerReachedStairTop(){
+                _part2Stairs[0].dehighLightArrow();
+                _playerController.startObjectivePointer(_standPoints[4].transform);
             }
 
             int _passengerCounter;

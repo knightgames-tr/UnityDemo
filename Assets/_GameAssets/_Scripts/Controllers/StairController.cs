@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class StairController : MonoBehaviour
 {
     public int _lineNo;
     PlayerController _playerController;
+    LevelManager _levelManager;
     void Start()
     {
         _playerController = PlayerController.Instance;
+        _levelManager = LevelManager.Instance;
 
         _stairQueue = new List<Transform>();
         initStepPositions();
@@ -76,8 +79,21 @@ public class StairController : MonoBehaviour
                     if(item.tag == "Player"){
                         _playerController.togglePlayerController(true);
                         _playerController.startObjectivePointer();
+                        _levelManager.playerReachedStairTop();
                     }else if(item.tag == "NPC"){
                         item.GetComponent<NPCController>().reachedStairTop();
+                    }
+                }else if(i == 0){
+                    _steps[i].GetChild(0).parent = _steps[i+1];
+                    _steps[i+1].GetChild(0).localPosition = Vector3.zero;    
+                    Vector3 dir = _startStep.right;
+                    dir.y = 0f;
+
+                    Transform item = _steps[i].GetChild(0);
+                    if(item.tag == "Player"){
+                        _steps[i+1].GetComponent<PlayerController>()._playerModel.DORotateQuaternion(Quaternion.LookRotation(dir), 0.1f);
+                    }else{
+                        _steps[i+1].GetChild(0).DORotateQuaternion(Quaternion.LookRotation(dir), 0.1f);
                     }
                 }else{
                     _steps[i].GetChild(0).parent = _steps[i+1];
@@ -97,5 +113,16 @@ public class StairController : MonoBehaviour
             _stairQueue[0].transform.localPosition = Vector3.zero;
             _stairQueue.RemoveAt(0);
         }
+    }
+
+    public Renderer _arrow;
+    float _highLightTime = 1f;
+    public Transform highLightArrow(){
+        _arrow.material.DOColor(Color.green,_highLightTime);
+        return _arrow.transform;
+    }
+
+    public void dehighLightArrow(){
+        _arrow.material.DOColor(Color.white,_highLightTime);
     }
 }

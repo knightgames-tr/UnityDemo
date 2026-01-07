@@ -11,21 +11,12 @@ public class GameManager : MonoBehaviour
     void Awake(){
         Instance = this;
     }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     #region Money
 
         public UnityEvent _scoreUpdatedEvent;
         int _currentMoney = 50;
+        public GameObject _moneyUI;
         public TextMeshProUGUI _moneyText;
 
         public bool updateMoney(int changeAmount){
@@ -43,6 +34,10 @@ public class GameManager : MonoBehaviour
 
         public int getCurrentMoney(){
             return _currentMoney;
+        }
+
+        public void deactivateMoneyUI(){
+            _moneyUI.SetActive(false);
         }
 
 
