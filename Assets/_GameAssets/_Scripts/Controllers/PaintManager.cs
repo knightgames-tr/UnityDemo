@@ -32,6 +32,7 @@ public class PaintManager : MonoBehaviour
     bool _isPaintActive;
     [ContextMenu ("activatePaint")]
     public void activatePaintManager(){
+        _board.DOScale(Vector3.one,1f);
         _gameManager.deactivateMoneyUI();
         rotatePlayerToBoard();
         _isPaintActive = true;
@@ -43,6 +44,7 @@ public class PaintManager : MonoBehaviour
         _playerController._playerModel.transform.DOLookAt(_paintArea.transform.position, 0.4f, AxisConstraint.Y);
     }
 
+    public Transform _board;
     public Renderer _paintArea;
     int _paintTexturePixelCount;
     int _paintedPixelCount;

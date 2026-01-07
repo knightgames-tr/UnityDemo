@@ -60,22 +60,12 @@ public class NPCController : MonoBehaviour
             _movement = false;
 
             reachedQueuePosition();
-
-            rotateToReachedPoint();
-
         }
 
         Vector3 _reachedPoint;
         public void setReachedPoint(Vector3 reachedPoint){
             _reachedPoint = reachedPoint;
         }
-
-        public void rotateToReachedPoint(){
-
-            //if(_reachedPoint != null){
-            //}
-        }
-
         
         Vector3 getPointOnNavmesh(Vector3 point){
             NavMeshHit navHit;

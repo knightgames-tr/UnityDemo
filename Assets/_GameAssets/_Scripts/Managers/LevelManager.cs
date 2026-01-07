@@ -25,7 +25,6 @@ public class LevelManager : MonoBehaviour
 
         //Activate first payment point
         _standPoints[0].togglePoint(true);
-
         _baggages = new List<Transform>();
         
     }
@@ -73,17 +72,18 @@ public class LevelManager : MonoBehaviour
 
         #region Point Specific Actions
 
+            [Separator]
             [Header ("Part 2 Objects")]
             public List<Transform> _part2Environment;
             public CinemachineVirtualCamera _part2Camera;
             public List<StairController> _part2Stairs;
-            float _part2SpawnTime = 0.2f;
+            float _part2SpawnTime = 0.4f;
             void activatePart2Environment(){
                 _playerController.togglePlayerController(false);
                 _playerController.stopObjectivePointer();
                 _part2Camera.Priority += 2;
 
-                float delay = 0.75f;
+                float delay = _part2SpawnTime;
                 for(int i=0;i<_part2Environment.Count-1;i++){
                     _part2Environment[i].DOScale(1,_part2SpawnTime).SetDelay(delay);
                     delay += _part2SpawnTime;
@@ -159,6 +159,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
 
+            [Separator]
             public Transform _baggagePutPosition;
             float _standPoint2WaitTime = 0.3f;
             int _currentBaggageIndex;
@@ -193,6 +194,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
 
+            [Separator]
             float _standPoint3WaitTime = 0.6f;
             public Transform _baggageJumpPosition;
             public Transform _jumpPadObject;
@@ -258,6 +260,7 @@ public class LevelManager : MonoBehaviour
                 });
             }
 
+            [Separator]
             public Transform _plane;
             public GameObject _moneyPrefab;
             public List<Transform> _moneyPutPlaces;
@@ -305,6 +308,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
 
+            [Separator]
             public CinemachineVirtualCamera _paintCamera;
             IEnumerator processStandPoint5(){
                 _playerController.togglePlayerController(false);
@@ -320,6 +324,7 @@ public class LevelManager : MonoBehaviour
 
     #region Line Controllers
 
+        [Separator]
         public List<LineController> _lines;
         bool[] _lineReadyStates;
         NPCController[] _lineReadyNPC;
