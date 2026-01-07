@@ -79,14 +79,17 @@ public class PlayerController : MonoBehaviour
         bool _isBaggageOn;
         float _toggleBag;
         float _toggleBagSpeed=3f;
+        public ParticleSystem _trail;
         void animationController(){
             //Set run idle states
             if(_currentAnimState != AnimStates.Run && _movementVector.magnitude >= 0.01f){
                 _currentAnimState = AnimStates.Run;
                 _playerAnimator.Play(AnimStates.Run.ToString());
+                _trail.Play();
             }else if(_currentAnimState != AnimStates.Idle && _movementVector.magnitude < 0.01f){
                 _currentAnimState = AnimStates.Idle;
                 _playerAnimator.Play(AnimStates.Idle.ToString());
+                _trail.Stop();
             }
 
             //Toggle baggage carry
@@ -136,6 +139,19 @@ public class PlayerController : MonoBehaviour
         public void stopObjectivePointer(){
             _objectivePointerArrow.gameObject.SetActive(false);
             _isPointing = false;
+        }
+
+    #endregion
+
+    #region Money Particles
+
+        public ParticleSystem _moneyParticles;
+        public void toggleMoneyParticles(bool value){
+            if(value){
+                _moneyParticles.Play();
+            }else{
+                _moneyParticles.Stop();
+            }
         }
 
     #endregion

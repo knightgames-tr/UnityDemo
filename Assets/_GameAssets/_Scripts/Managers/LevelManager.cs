@@ -45,7 +45,9 @@ public class LevelManager : MonoBehaviour
         public void onStandPoint(int pointNo){
             _playerController.stopObjectivePointer();
 
-            if(pointNo == 1){
+            if(pointNo == 0){
+                _playerController.toggleMoneyParticles(true);
+            }else if(pointNo == 1){
                 StartCoroutine(processStandPoint1());
             }else if(pointNo == 2){
                 StartCoroutine(processStandPoint2());
@@ -53,20 +55,27 @@ public class LevelManager : MonoBehaviour
                 StartCoroutine(processStandPoint3());
             }else if(pointNo == 4){
                 StartCoroutine(processStandPoint4());
+            }else if(pointNo == 5){
+                _playerController.toggleMoneyParticles(true);
             }
         }    
         
         public void offStandPoint(int pointNo){
+            _playerController.toggleMoneyParticles(false);
             _playerController.startObjectivePointer(_standPoints[pointNo].transform);
         }
 
         public void donePaymentPoint(int pointNo){
             if(pointNo == 0){
+                _playerController.toggleMoneyParticles(false);
                 activatePart2Environment();
             }else if(pointNo == 5){
+                _playerController.toggleMoneyParticles(false);
                 StartCoroutine(processStandPoint5());
             }
         }
+
+        bool _standWait = false;
 
         #region Point Specific Actions
 
@@ -113,6 +122,10 @@ public class LevelManager : MonoBehaviour
             float _standPoint1WaitTime = 0.1f;
             IEnumerator processStandPoint1(){
                 while(true){
+                    if(_standWait){
+                        yield break;
+                    }
+
                     if(!_lines[0]._isLineActive){
                         yield break;
                     }
@@ -139,7 +152,9 @@ public class LevelManager : MonoBehaviour
 
                         _lineReadyNPC[0].toggleBaggageCarry(false);
 
+                        _standWait = true;
                         yield return new WaitForSeconds(0.3f);
+                        _standWait = false;
 
                         _playerController.toggleBaggageCarry(true);
                         _lines[1].addNPCToLine(_lineReadyNPC[0]);
@@ -155,6 +170,10 @@ public class LevelManager : MonoBehaviour
             int _currentBaggageIndex;
             IEnumerator processStandPoint2(){
                 while(true){
+                    if(_standWait){
+                        yield break;
+                    }
+
                     if(!_standPoints[2].getIsStanding()){
                         yield break;
                     }
@@ -173,7 +192,10 @@ public class LevelManager : MonoBehaviour
                     _baggages[_currentBaggageIndex].DOJump(_baggagePutPosition.position+new Vector3(0,_baggageOffset*(_baggages.Count-1-_currentBaggageIndex),0),3,1,_standPoint2WaitTime);
                     _baggages[_currentBaggageIndex].DOLocalRotate(_baggagePutPosition.eulerAngles,_standPoint2WaitTime);
                     _currentBaggageIndex--;
+                    
+                    _standWait = true;
                     yield return new WaitForSeconds(_standPoint2WaitTime);
+                    _standWait = false;
                 }
             }
 
@@ -183,6 +205,10 @@ public class LevelManager : MonoBehaviour
             public Transform _truckBaggagePosition;
             IEnumerator processStandPoint3(){
                 while(true){
+                    if(_standWait){
+                        yield break;
+                    }
+
                     if(!_standPoints[3].getIsStanding()){
                         yield break;
                     }
@@ -220,7 +246,9 @@ public class LevelManager : MonoBehaviour
                         _jumpPadObject.DOMove(_jumpPadObject.position-new Vector3(0,2,0),_standPoint3WaitTime/3);
                     });
 
+                    _standWait = true;
                     yield return new WaitForSeconds(_standPoint3WaitTime*(5/3f));
+                    _standWait = false;
                 }
             }
 
@@ -245,6 +273,10 @@ public class LevelManager : MonoBehaviour
             float _standPoint4WaitTime = 0.1f;
             IEnumerator processStandPoint4(){
                 while(true){
+                    if(_standWait){
+                        yield break;
+                    }
+
                     if(!_lines[2]._isLineActive){
                         yield break;
                     }
@@ -270,7 +302,10 @@ public class LevelManager : MonoBehaviour
                         _lines[3].addNPCToLine(_lineReadyNPC[2]);
                         _lineReadyStates[2] = false;
                         _lines[2].processQueue();
+
+                        _standWait = true;
                         yield return new WaitForSeconds(1f);
+                        _standWait = false;
                     }
 
                 }
