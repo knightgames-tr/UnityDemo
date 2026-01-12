@@ -6,6 +6,8 @@
 <br><br>
 [Windows Build](https://github.com/knightgames-tr/PlayableAdsDev/blob/main/windows_build.zip)
 
+### Unity 3D ve C# dili kullanılarak bir demo hazırlanmıştır.
+
 ##### Hazırlayan: Ecem Özdoğan
 
 **Kullanılan Ek Assetler:** Dotween, Joystick pack 
