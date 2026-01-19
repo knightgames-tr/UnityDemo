@@ -1,4 +1,4 @@
-# Playable Ads Dev Test Case
+# Unity Game Demo
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/6MAQlIkuKoM)](https://youtu.be/6MAQlIkuKoM)
 <br>
@@ -26,4 +26,3 @@
 * Çeşitli animasyonlar için, zincirlenmiş dotween tween özellikleri kullanıldı.
 * Tutma ve yürüme animasyonlarını aynı anda çalıştırabilmek için, avatar mask kullanıldı. Animation Layer oluşturuldu.
 * Bölüme özgü, daha spesifik, hard coded gerektiren aksiyonlar LevelManager üzerinde tanımlandı. Coroutine'ler kullanıldı.
-* NPC hareketleri Navmesh kullanılarak yapıldı, ancak Unity Playworks'ün Unity.AI desteklemediğini farketmem sonucunda Playworks build'i alamadım.
