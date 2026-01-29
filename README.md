@@ -2,25 +2,25 @@
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/6MAQlIkuKoM)](https://youtu.be/6MAQlIkuKoM)
 <br>
-[Demo Youtube Videosu](https://youtu.be/6MAQlIkuKoM)
+[Demo Youtube Video](https://youtu.be/6MAQlIkuKoM)
 <br><br>
 [Windows Build](https://github.com/knightgames-tr/PlayableAdsDev/blob/main/windows_build.zip)
 
-### Unity 3D ve C# dili kullanılarak bir demo hazırlanmıştır.
+### Developed using Unity 3D and the C# programming language.
 
-**Kullanılan Ek Assetler:** Dotween, Joystick pack 
+**Additional Assets Used:** DOTween, Joystick Pack
 
-#### Geliştirme Notları:
+#### Development Notes:
 
-* Manager sınıfları Singleton olarak kullanıldı.
-* Ayakta durma noktaları için "StandPoint" isimli bir parent sınıf, ve bu sınıftan extend eden "ActionPoint" ve "PaymentPoint" sınıfları tanımlandı.
-* NPC'lerin sıralanması için bir "LineController" sınıfı tanımlandı. NPC'ler dinamik bir offset değerine göre sıralandı.
-* Kuyruktaki NPC, işlemini tamamladığı zaman "LevelManager"'a haber verir, ve sıradaki NPC harekete geçer.
-* Merdiven hareketleri, her step objesinin, başa saran bir döngü içerisinde bir sonraki noktaya hareketlenmesi ile oluşturuldu.
-* Tahta boyama özelliği gerçekleştirilirken, öncelikle dokunulan noktaya denk düşen piksel bulunur. Bu pikselin komşu pikselleri, brush size yarıçap olarak kullanılarak hesaplanır ve texture üzerindeki pikseller boyanır. O pikselin önceden beyaz olup olmadığı kontrol edilir ve bu kontrole göre boyama yüzdesi hesaplanır.
-* Oyuncu kontrolleri character controller kullanılarak yapıldı.
-* Trail ve para harcama efektleri, particles system kullanılarak yapıldı.
-* Kamera geçişleri Cinemachine ile yapıldı.
-* Çeşitli animasyonlar için, zincirlenmiş dotween tween özellikleri kullanıldı.
-* Tutma ve yürüme animasyonlarını aynı anda çalıştırabilmek için, avatar mask kullanıldı. Animation Layer oluşturuldu.
-* Bölüme özgü, daha spesifik, hard coded gerektiren aksiyonlar LevelManager üzerinde tanımlandı. Coroutine'ler kullanıldı.
+* Manager classes were implemented using the Singleton pattern.
+* A parent class named StandPoint was defined for standing points, with ActionPoint and PaymentPoint classes extending from it.
+* A LineController class was created to handle NPC queueing. NPCs are positioned in line using a dynamic offset value.
+* When the NPC at the front of the queue completes its task, it notifies the LevelManager, allowing the next NPC to proceed.
+* Stair movement was implemented by moving each step object to the next point within a looping sequence.
+* While implementing the plank painting feature, the pixel corresponding to the touched point is first identified. Neighboring pixels are calculated using the brush size as a radius and then painted on the texture. A check is performed to determine whether the pixel was previously white, and the painting percentage is calculated based on this condition.
+* Player controls were implemented using the Character Controller.
+* Trail and money spending effects were created using the Particle System.
+* Camera transitions were handled using Cinemachine.
+* For various animations, chained DOTween tween features were utilized.
+* An Avatar Mask was used to allow holding and walking animations to play simultaneously, and an Animation Layer was created.
+* Level-specific, more specialized, hard-coded actions were defined within the LevelManager using Coroutines.
